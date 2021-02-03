@@ -1,0 +1,370 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+	<head>
+     	<#assign aDateTime = .now>
+		<#assign aDate = aDateTime?date>
+		<#assign aTime = aDateTime?time>
+		
+		<#assign Unit="mm">						<!--Change Unit here for the below distances. Could be em mm cm px pt etc... -->
+		<#assign nBorderWidth = 1> 			<!-- px -->
+
+		<!-- 
+        +...............................HeaderMargin.top................................+
+        |    +...............................border................................+    |  
+        |    |    +.....................HeaderPadding.top......................+   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    |    |                Header Content                    |    |   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    +.....................HeaderPadding.bottom...................+   |    |
+        |    +...............................border................................+    |
+        +...............................HeaderMargin.bottom.............................+
+		ContentMargin.left                                             ContentMargin.right
+            +.......................................................................+       
+            |                                                                       |
+            |                                                                       |
+            |                                Content                                |
+            |                                                                       |
+            |                                                                       |
+            +.......................................................................+       
+        +...............................FooterMargin.top................................+
+        |    +.............................border..................................+    |  
+        |    |    +.....................FooterPadding.top......................+   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    |    |                Footer Content                    |    |   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    +.....................FooterPadding.bottom...................+   |    |
+        |    +.............................border..................................+    |
+        +...............................FooterMargin.bottom.............................+
+   	
+       Edit the variables for header, content and footer to control the layout of the page -->
+          
+		<#assign HeaderMargin={"top":5 , "left":9, "right":10, "bottom":0}>
+		<#assign HeaderPadding={"top":0 , "left":0, "right":0, "bottom":0}>
+		<#assign HeaderHeight=35>
+		
+      <#assign ContentMargin={"left":10, "right":10}>
+      
+		<#assign FooterMargin={"top":5 , "left":0, "right":0, "bottom":0}>
+		<#assign FooterPadding={"top":0 , "left":5, "right":5, "bottom":7}>
+		<#assign FooterHeight=20> 
+		
+		
+		
+		<!-- Do not change the variables below   -->
+  		<#assign mmBorderWidth = 25.4*(nBorderWidth/96)>
+		<#assign cBorderWidth = "${nBorderWidth}px">
+		<#assign cHeaderHeight = (HeaderHeight+(2*mmBorderWidth) + HeaderMargin.top + HeaderMargin.bottom + HeaderPadding.top + HeaderPadding.bottom)>
+		<#assign cFooterHeight = (FooterHeight+(2*mmBorderWidth) + FooterMargin.top + FooterMargin.bottom + FooterPadding.top + FooterPadding.bottom)>
+  		<#assign cHMarginLeft=HeaderMargin.left-ContentMargin.left>
+  		<#assign cHMarginRight=HeaderMargin.right-ContentMargin.right>
+		<#assign cFMarginLeft=FooterMargin.left-ContentMargin.left>
+		<#assign cFMarginRight=FooterMargin.right-ContentMargin.right>
+		<#assign PMTop="0">
+		<#assign PMLeft="${ContentMargin.left}${Unit}">
+		<#assign PMRight="${ContentMargin.right}${Unit}">
+		<#assign PMBottom="0">
+      
+    
+      
+	<#macro beforecolon value><!--Freemarker directive-->
+		${value?split(":")[0]}
+	</#macro>
+	
+      <!-- You can change Company Header and footer in the Macrolist section below -->
+      
+      <macrolist><!--Big Faceless Report Generator directive-->
+		
+      <macro id="pageheader">
+			<table class="header noborder fullwidth">
+				<tr>
+					<!-- edit logo image size in style section ".header td.logo img" -->
+               <td width="60%" rowspan="3" class="logo">
+      				<#if headerfooter[0].Image1?length != 0><img src="${headerfooter[0].Image1}" /></#if>
+      			</td>
+              	<td width="15%"></td>
+              <!--<td width="25%" class="title" align="right"><#if customer.image?length != 0><img src="${customer.image}" /></#if></td>	-->
+              <td width="25%" class="title" align="right">${headerfooter[0].Title}</td>
+				</tr>
+           <tr>
+             <td></td>
+             <td align="right">
+              	${aDate} <br/>
+             </td>
+           </tr>
+       	  <tr>
+             	<td></td>
+               <td></td>
+          	</tr>
+			</table>
+		</macro>
+		<macro id="pagefooter">
+			<table class="footer noborder fullwidth">
+           <tr>
+             <td colspan="4">
+             	<hr />
+             </td>
+           </tr>
+				<tr>						
+					<td class="footl item">${headerfooter[0].Footer1}</td>
+					<td class="footl item">${headerfooter[0].Footer2}</td>
+               <td class="footl item">${headerfooter[0].Footer3}</td>
+					<td class="footr item">${headerfooter[0].Footer4}</td>
+				</tr>
+			</table>
+		</macro>
+	</macrolist>
+     
+ 
+     
+   <!-- The macrolist section ends here -->  
+   
+   <!-- Style sheet definitions starts here -->
+     
+	<style type="text/css">
+		<!-- Change color on a striped table -->
+		tr.oddRow td {
+			background-color: #F0F0F0; color: black;
+		}
+		tr.evenRow td {
+			background-color: #ffffff; color: black;
+		}	
+		<!-- standard horizontal ruler -->
+		hr {
+			width: 100%;
+			color: #d3d3d3;
+			background-color: #d3d3d3;
+			height: 1px;
+		}
+		<!-- standard table full width -->
+		table.fullwidth {
+			width: 100%;
+		}
+		<!-- standard table with border -->
+		table.border{
+			border-style: solid;
+			border-width: ${cBorderWidth};
+		}
+      <!-- if you do not want border on table cells, set border-width to 0px -->
+     	table.tdthborder td,th{
+			border-style: solid;
+			border-width: 1px;
+		}
+		p.item{
+			text-align:left;
+			align:left;
+			word-wrap: break-word;
+			white-space:normal;
+		}
+
+		<!-- standard table with no border -->
+		table.noborder {
+			border: none;
+		}
+		<!-- Font for all tables -->
+		table {
+			font-size: 9pt;
+			font-family: arial,helvetica,sans-serif;
+			font-size: 9pt;
+		}
+		.content {
+			font-size: 12pt;
+			font-family: serif,arial,helvetica,courier;
+        	padding: 0;
+		}
+		.content2 {
+			font-size: 12pt;
+			font-family:  	FoglihtenNo07	;
+        	padding: 0;
+		}
+		<!-- The header that is repeated on every page -->
+		table.header {
+			font-family: arial,helvetica,courier;
+			padding-top: ${HeaderPadding.top}${Unit};
+			padding-left: ${HeaderPadding.left}${Unit};
+			padding-right: ${HeaderPadding.right}${Unit};
+			padding-bottom: ${HeaderPadding.bottom}${Unit};
+        	margin-left:${cHMarginLeft}${Unit};
+        	margin-right:${cHMarginRight}${Unit};
+			margin-bottom:${HeaderMargin.bottom}${Unit};
+			margin-top:${HeaderMargin.top}${Unit};
+			height:${cHeaderHeight}${Unit};
+		}
+		.header td.title {
+			font-size: 14pt;
+			font-weight: bold;
+			text-align: right;
+			vertical-align:bottom;
+		}
+		.header td.label {
+			text-align: right;
+			vertical-align:top;
+		}
+		<!-- adjust logo size here -->
+		.header td.logo img {
+			margin: 0px; 
+			width: 100%; 
+			height: 100%;
+		}
+		<!-- The footer that is repeated on every page -->
+		table.footer {
+			padding-top: ${FooterPadding.top}${Unit};
+			padding-left: ${FooterPadding.left}${Unit};
+			padding-right: ${FooterPadding.right}${Unit};
+			padding-bottom: ${FooterPadding.bottom}${Unit};
+        	margin-left:${cFMarginLeft}${Unit};
+        	margin-right:${cFMarginRight}${Unit};
+			margin-bottom:${FooterMargin.bottom}${Unit};
+			margin-top:${FooterMargin.top}${Unit};
+			height:${cFooterHeight}${Unit};
+		}
+		.footer td.footl {
+			font-size: 8t;
+			width: 25
+			align: left;
+			vertical-align:top;
+		}
+		.footer td.footr {
+			font-size: 8t;
+			width: 25
+			align: right;
+			vertical-align:top;
+		}
+		.footer td.title {
+			font-size: 12pt;
+			align: left;
+			vertical-align:middle;
+		}
+     
+     	.item {
+         text-align:left;
+         align:left;
+         word-wrap: break-word;
+         white-space:pre;
+  		} 
+     
+     
+		th {
+			font-weight: bold;
+			font-size: 9pt;
+			vertical-align: top;
+			padding: 1px 5px 1px;
+			background-color: #e3e3e3;
+			color: #333333;
+		}
+
+		td {
+			font-size: 9pt;
+			vertical-align: top;
+			padding: 1px 5px 1px;
+			<!-- background-color: #e3e3e3; -->
+			color: #333333;
+		}
+     
+
+     
+     
+	</style>
+   <!-- Style sheet definitions ends here -->  
+     
+	</head>
+	<body header="pageheader" header-height="${cHeaderHeight}${Unit}" footer="pagefooter" footer-height="${cFooterHeight}${Unit}" 
+         padding="0" margin="${PMTop} ${PMRight} ${PMBottom} ${PMLeft}" size="A4" >
+	<!-- Start to create your layout here -->	
+ 		<table class="noborder fullwidth">
+             <tr>
+                <td class="item" align="right" width="15%"><b>VENDOR</b></td>
+                <td class="item" width="35%">${vendor.companyname}</td>
+              	 <td class="item" align="right" rowspan="3" width="15%"><b>BILL TO</b></td>
+                <td class="item" rowspan="3" width="35%">${vendor.defaultaddress}</td>
+        		</tr>
+            <tr>
+                <td class="item" align="right"><b>CURRENCY</b></td>
+                <td class="item">${vendor.currency}</td>
+        		</tr>
+             <tr>
+              	 <td class="item" align="right"><b>VAT REG NUMBER</b></td>
+                <td class="item">${vendor.vatregnumber}</td>
+        		</tr>
+             <tr>
+                <td class="item" align="right"><b>TERMS</b></td>
+                <td class="item">${vendor.terms}</td>
+        		</tr>
+        
+       </table>
+   
+
+     	<br/>
+       <table class="border tdthborder fullwidth">
+           <tr>
+                <td colspan="6">TRANSACTION OVERVIEW</td>           
+           </tr>
+              <tr>
+                <th width="20%">BALANCE</th>
+                <td width="15%">${vendor.balance?string(",##0.00")?html?replace('[a-zA-Z£€$¤]+','','r')}</td>
+                <th width="20%">OVERDUE BALANCE</th>
+                <td width="15%">${vendor.overduebalance?string(",##0.00")?html?replace('[a-zA-Z£€$¤]+','','r')}</td>
+                <th width="20%">DAYS OVERDUE</th>
+                <td width="10%">${vendor.daysoverdue}</td>
+
+
+           </tr>
+       </table>
+     	<br/>
+    	 <table class="border tdthborder fullwidth">
+         <tr>
+                <td colspan="5">AGING OVERVIEW</td>           
+         </tr>
+         <tr>
+              <th width="20%">CURRENT</th>
+              <th width="20%">1-30 DAYS</th>
+              <th width="20%">31-60 DAYS</th>
+              <th width="20%">61-90 DAYS</th>
+              <th width="20%">OVER 90 DAYS</th>
+       	</tr>
+           <tr>
+              <td width="15%">${aging[0].aging}</td>
+              <td width="15%">${aging[0].aging1}</td>
+              <td width="15%">${aging[0].aging2}</td>
+              <td width="15%">${aging[0].aging3}</td>
+              <td width="15%">${aging[0].aging4}</td>             
+       	</tr>
+     </table>
+     <br/>
+	    <table class="border fullwidth tdthborder">
+         <thead>
+             <tr>
+                <td colspan="8">TRANSACTIONS SUMMARY</td>           
+           </tr>
+           <tr>
+              <th>TYPE</th>
+              <th>#</th>
+              <th>DATE</th>
+              <th>DUEDATE</th>
+              <th>AMOUNT</th>
+              <th>REMAINING</th>
+              <th>STATUS</th>
+              <th>Memo</th>
+           </tr>
+        </thead>
+        <tbody>
+           <#if trxsummary?has_content>
+              <#list trxsummary as item>
+               <#if ((custpage_trx_creation_date?date) < (item.Date?date))>
+                   <tr>
+                      <td>${item.TrxType}</td>
+                      <td>${item.Number}</td>
+                      <td>${item.Date}</td>
+                      <td>${item.DueDate}</td>
+                      <td align="right">${item.Amount}</td>
+                      <td align="right">${item.Remaining}</td>
+                      <td>${item.Status}</td>
+                      <td>${item.Memo}</td>
+                	 </tr>
+          	 	</#if>
+              </#list>
+           </#if>
+        </tbody>
+     </table>
+     
+	</body>
+</pdf>
