@@ -1,0 +1,236 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+	<head>
+     	<#assign aDateTime = .now>
+		<#assign aDate = aDateTime?date>
+		<#assign aTime = aDateTime?time>
+		
+		<#assign Unit="mm">						<!--Change Unit here for the below distances. Could be em mm cm px pt etc... -->
+		<#assign nBorderWidth = 1> 			<!-- px -->
+
+		<!-- 
+        +...............................HeaderMargin.top................................+
+        |    +...............................border................................+    |  
+        |    |    +.....................HeaderPadding.top......................+   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    |    |                Header Content                    |    |   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    +.....................HeaderPadding.bottom...................+   |    |
+        |    +...............................border................................+    |
+        +...............................HeaderMargin.bottom.............................+
+		ContentMargin.left                                             ContentMargin.right
+            +.......................................................................+       
+            |                                                                       |
+            |                                                                       |
+            |                                Content                                |
+            |                                                                       |
+            |                                                                       |
+            +.......................................................................+       
+        +...............................FooterMargin.top................................+
+        |    +.............................border..................................+    |  
+        |    |    +.....................FooterPadding.top......................+   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    |    |                Footer Content                    |    |   |    |
+        |    |    |    +..................................................+    |   |    |
+        |    |    +.....................FooterPadding.bottom...................+   |    |
+        |    +.............................border..................................+    |
+        +...............................FooterMargin.bottom.............................+
+   	
+       Edit the variables for header, content and footer to control the layout of the page -->
+          
+		<#assign HeaderMargin={"top":0 , "left":0, "right":0, "bottom":5}>
+		<#assign HeaderPadding={"top":0 , "left":10, "right":10, "bottom":0}>
+		<#assign HeaderHeight=25>
+		
+      <#assign ContentMargin={"left":10, "right":10}>
+      
+		<#assign FooterMargin={"top":5 , "left":0, "right":0, "bottom":0}>
+		<#assign FooterPadding={"top":0 , "left":10, "right":10, "bottom":0}>
+		<#assign FooterHeight=30> 
+		
+		
+		
+		<!-- Do not change the variables below   -->
+  		<#assign mmBorderWidth = 25.4*(nBorderWidth/96)>
+		<#assign cBorderWidth = "${nBorderWidth}px">
+		<#assign cHeaderHeight = (HeaderHeight+(2*mmBorderWidth) + HeaderMargin.top + HeaderMargin.bottom + HeaderPadding.top + HeaderPadding.bottom)>
+		<#assign cFooterHeight = (FooterHeight+(2*mmBorderWidth) + FooterMargin.top + FooterMargin.bottom + FooterPadding.top + FooterPadding.bottom)>
+  		<#assign cHMarginLeft=HeaderMargin.left-ContentMargin.left>
+  		<#assign cHMarginRight=HeaderMargin.right-ContentMargin.right>
+		<#assign cFMarginLeft=FooterMargin.left-ContentMargin.left>
+		<#assign cFMarginRight=FooterMargin.right-ContentMargin.right>
+		<#assign PMTop="0">
+		<#assign PMLeft="${ContentMargin.left}${Unit}">
+		<#assign PMRight="${ContentMargin.right}${Unit}">
+		<#assign PMBottom="0">
+      
+    
+      
+	<#macro beforecolon value><!--Freemarker directive-->
+		${value?split(":")[0]}
+	</#macro>
+	
+      <!-- You can change Company Header and footer in the Macrolist section below -->
+      
+      <macrolist><!--Big Faceless Report Generator directive-->
+		
+      <macro id="pageheader">
+			<table class="header border fullwidth">
+				<tr>
+					<td class="logo"  width="40%"><#if companyInformation.logoUrl?length != 0><img src="${companyInformation.logoUrl?xml}" /> </#if><br />&nbsp;</td>
+					<td class="title"  width="40%">Title</td>
+					<td class="label" width="20%">Date <br />${aDate?iso_local}	</td>
+				</tr>
+			</table>
+		</macro>
+		<macro id="pagefooter">
+			<table class="footer border fullwidth">
+				<tr>
+					<td colspan="3" class="title">${companyInformation.legalname}</td>
+				</tr>
+				<tr>
+					<td class="footl">${companyInformation.mainaddress_text}</td>
+					<td class="footl">Phone:${companyInformation.phone}</td>
+					<td class="footr">Website:${companyInformation.url}</td>
+				</tr>
+			</table>
+		</macro>
+	</macrolist>
+     
+   <!-- The macrolist section ends here -->  
+   
+   <!-- Style sheet definitions starts here -->
+     
+	<style type="text/css">
+		<!-- Change color on a striped table -->
+		tr.oddRow td {
+			background-color: #F0F0F0; color: black;
+		}
+		tr.evenRow td {
+			background-color: #ffffff; color: black;
+		}	
+		<!-- standard horizontal ruler -->
+		hr {
+			width: 100%;
+			color: #d3d3d3;
+			background-color: #d3d3d3;
+			height: 1px;
+		}
+		<!-- standard table full width -->
+		table.fullwidth {
+			width: 100%;
+		}
+		<!-- standard table with border -->
+		table.border{
+			border-style: solid;
+			border-width: ${cBorderWidth};
+		}
+      <!-- if you do not want border on table cells, set border-width to 0px -->
+     	table.tdthborder td,th{
+			border-style: solid;
+			border-width: 1px;
+		}
+		p.item{
+			text-align:left;
+			align:left;
+			word-wrap: break-word;
+			white-space:normal;
+		}
+
+		<!-- standard table with no border -->
+		table.noborder {
+			border: none;
+		}
+		<!-- Font for all tables -->
+		table {
+			font-size: 9pt;
+			font-family: arial,helvetica,sans-serif;
+			font-size: 9pt;
+		}
+		.content {
+			font-size: 12pt;
+			font-family: serif,arial,helvetica,courier;
+        	padding: 0;
+		}
+		.content2 {
+			font-size: 12pt;
+			font-family:  	FoglihtenNo07	;
+        	padding: 0;
+		}
+		<!-- The header that is repeated on every page -->
+		table.header {
+			font-family: arial,helvetica,courier;
+			padding-top: ${HeaderPadding.top}${Unit};
+			padding-left: ${HeaderPadding.left}${Unit};
+			padding-right: ${HeaderPadding.right}${Unit};
+			padding-bottom: ${HeaderPadding.bottom}${Unit};
+        	margin-left:${cHMarginLeft}${Unit};
+        	margin-right:${cHMarginRight}${Unit};
+			margin-bottom:${HeaderMargin.bottom}${Unit};
+			margin-top:${HeaderMargin.top}${Unit};
+			height:${cHeaderHeight}${Unit};
+		}
+		.header td.title {
+			font-size: 14pt;
+			font-weight: bold;
+			text-align: center;
+			vertical-align:middle;
+		}
+		.header td.label {
+			text-align: center;
+			vertical-align:middle;
+		}
+		.header td.logo img {
+			margin: 7px; 
+			width: 100%; 
+			height: 100%;
+		}
+		<!-- The footer that is repeated on every page -->
+		table.footer {
+			padding-top: ${FooterPadding.top}${Unit};
+			padding-left: ${FooterPadding.left}${Unit};
+			padding-right: ${FooterPadding.right}${Unit};
+			padding-bottom: ${FooterPadding.bottom}${Unit};
+        	margin-left:${cFMarginLeft}${Unit};
+        	margin-right:${cFMarginRight}${Unit};
+			margin-bottom:${FooterMargin.bottom}${Unit};
+			margin-top:${FooterMargin.top}${Unit};
+			height:${cFooterHeight}${Unit};
+		}
+		.footer td.footl {
+			font-size: 6.5pt;
+			width: 33%;
+			align: left;
+			vertical-align:middle;
+		}
+		.footer td.footr {
+			font-size: 6.5pt;
+			width: 34%;
+			align: right;
+			vertical-align:middle;
+		}
+		.footer td.title {
+			font-size: 12pt;
+			align: left;
+			vertical-align:middle;
+		}
+		th {
+			font-weight: bold;
+			font-size: 8pt;
+			vertical-align: top;
+			padding: 5px 6px 3px;
+			background-color: #e3e3e3;
+			color: #333333;
+		}
+     
+	</style>
+   <!-- Style sheet definitions ends here -->  
+     
+	</head>
+	<body header="pageheader" header-height="${cHeaderHeight}${Unit}" footer="pagefooter" footer-height="${cFooterHeight}${Unit}" padding="0" margin="${PMTop} ${PMRight} ${PMBottom} ${PMLeft}" size="A4">
+	<!-- Start to create your layout here -->	
+     <p>Hello World</p>
+     
+     
+	</body>
+</pdf>
